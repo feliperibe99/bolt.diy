@@ -25,7 +25,7 @@ FROM node:20.18.0-slim AS runtime
 WORKDIR /app
 
 # Install pnpm in runtime
-RUN npm install -g pnpm@9.14.4
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 # Copy package files
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
