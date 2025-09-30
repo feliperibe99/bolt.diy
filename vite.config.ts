@@ -16,9 +16,19 @@ export default defineConfig((config) => {
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     },
-    build: {
-      target: 'esnext',
-    },
+build: {
+  target: 'esnext',
+},
+server: {
+  host: '0.0.0.0',
+  port: 5173,
+  strictPort: true,
+  allowedHosts: [
+    'localhost',
+    '.easypanel.host',
+    '.easypanel.io'
+  ],
+},
     plugins: [
       nodePolyfills({
         include: ['buffer', 'process', 'util', 'stream'],
