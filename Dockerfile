@@ -6,7 +6,7 @@ WORKDIR /app
 # Copy dependency files
 COPY package.json pnpm-lock.yaml ./
 
-# Install pnpm without corepack to avoid signature issues
+# Install pnpm
 RUN npm install -g pnpm@9.14.4
 
 # Install dependencies
@@ -24,8 +24,8 @@ FROM node:20.18.0-slim AS runtime
 
 WORKDIR /app
 
-# Install pnpm in runtime
-RUN pnpm install --prod --frozen-lockfile --ignore-scripts
+# Install pnpm FIRST
+RUN npm install -g pnpm@9.14.4
 
 # Copy package files
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
@@ -34,8 +34,8 @@ COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/public ./public
 
-# Install only production dependencies
-RUN pnpm install --prod --frozen-lockfile
+# Install only production dependencies (after pnpm is installed)
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 # Environment variables
 ENV NODE_ENV=production
