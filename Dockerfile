@@ -45,4 +45,4 @@ ENV PORT=5173
 EXPOSE 5173
 
 # Start command
-CMD ["pnpm", "run", "start"]
+CMD ["node", "./build/server/index.js"]
